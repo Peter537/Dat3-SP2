@@ -70,4 +70,8 @@ public class Game {
     public void addSystem(String system) {
         // TODO:
     }
+
+    public void addScrape(Scrape scrape) {
+        // TODO:
+    }
 }
