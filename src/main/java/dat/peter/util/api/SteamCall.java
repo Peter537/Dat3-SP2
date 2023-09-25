@@ -1,5 +1,6 @@
 package dat.peter.util.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import java.time.ZoneOffset;
 
 @Getter
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SteamCall {
     @JsonProperty("gid")
     private long gid;
