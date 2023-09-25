@@ -1,12 +1,16 @@
 package dat.peter.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class News {
 
     @Id
@@ -29,7 +33,7 @@ public class News {
 
     private String feed_name;
 
-    private String feed_type;
+    private int feed_type;
 
     @ManyToOne
     private Game fk_app_id;
