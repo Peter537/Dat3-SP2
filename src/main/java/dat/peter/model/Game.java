@@ -36,7 +36,7 @@ public class Game {
 
     private byte[] logo;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     private App_Type type;
 
     @Column(columnDefinition = "TEXT")
