@@ -1,4 +1,4 @@
-package dat.peter.webscraping;
+package dat.peter.util.webscraping;
 
 import dat.peter.model.App_Type;
 import dat.peter.model.Game;

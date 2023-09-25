@@ -1,5 +1,7 @@
 package dat.peter.api;
 
+import dat.peter.util.api.SteamAPI;
+import dat.peter.util.api.SteamCall;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package dat.peter.api;
+package dat.peter.util.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

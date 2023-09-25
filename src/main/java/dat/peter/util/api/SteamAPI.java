@@ -1,4 +1,4 @@
-package dat.peter.api;
+package dat.peter.util.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
