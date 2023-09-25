@@ -11,9 +11,9 @@ import dat.peter.util.webscraping.WebScraper;
 import java.util.List;
 
 public class Persister {
-    static DAO<News> newsDAO = new DAO<>(News.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
-    public static DAO<Game> gameDAO = new DAO<>(Game.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
-    public static void main(String[] args) {
+    private DAO<News> newsDAO = new DAO<>(News.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+    private DAO<Game> gameDAO = new DAO<>(Game.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+    public void persist() {
         List<Game> games = WebScraper.getData();
         System.out.println(games.size());
 
