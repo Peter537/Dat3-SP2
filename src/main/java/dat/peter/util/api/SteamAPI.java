@@ -46,7 +46,9 @@ public class SteamAPI {
                 JsonNode newsItems = jsonNode.get("appnews").get("newsitems").get(0);
 
                 // Deserialize the JSON into a SteamCall object
-                return objectMapper.readValue(newsItems.toString(), SteamCall.class).getSteamCall();
+                if (newsItems != null) {
+                    return objectMapper.readValue(newsItems.toString(), SteamCall.class).getSteamCall();
+                }
             } else {
                 System.err.println("HTTP Request failed with status code: " + response.statusCode());
             }

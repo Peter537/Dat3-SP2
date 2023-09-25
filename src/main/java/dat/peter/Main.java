@@ -2,6 +2,7 @@ package dat.peter;
 
 import dat.peter.config.HibernateConfig;
 import dat.peter.model.Game;
+import dat.peter.util.Persister;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -18,5 +19,7 @@ public class Main {
         em.getTransaction().commit();
         em.close();
 
+        Persister persister = new Persister();
+        persister.persist();
     }
 }
