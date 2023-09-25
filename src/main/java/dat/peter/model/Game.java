@@ -1,6 +1,8 @@
 package dat.peter.model;
 
 
+import dat.peter.config.HibernateConfig;
+import dat.peter.dao.boilerplate.DAO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,13 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 public class Game {
+
+
+    @Transient
+    EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryConfig("SteamDB");
+
+    @Transient
+    private DAO<Developer> developerDAO = new DAO<>(Developer.class, emf);
 
     @Id
     private long app_id;
@@ -59,22 +68,25 @@ public class Game {
 
 
     public void addDeveloper(String developer) {
-        // TODO: check DB if the developer exists and link to existing if it does. Else it should create a new developer and link it
+        if (developerDAO.findById(developer) == null) {
+            Game_Developer dev = new Game_Developer(this, new Developer(developer));
+            developers.add(dev);
+        }
     }
 
-    public void addPublisher(String publisher) {
-        // TODO: check DB if the publisher exists and link to existing if it does. Else it should create a new publisher and link it
-    }
+        public void addPublisher (String publisher){
+            // TODO: check DB if the publisher exists and link to existing if it does. Else it should create a new publisher and link it
+        }
 
-    public void setType(String type) {
-        // TODO:
-    }
+        public void setType (String type){
+            // TODO:
+        }
 
-    public void addSystem(String system) {
-        // TODO:
-    }
+        public void addSystem (String system){
+            // TODO:
+        }
 
-    public void addScrape(Scrape scrape) {
-        // TODO:
+        public void addScrape (Scrape scrape){
+            // TODO:
+        }
     }
-}
