@@ -7,7 +7,6 @@ import dat.peter.model.News;
 import dat.peter.util.api.SteamAPI;
 import dat.peter.util.api.SteamCall;
 import dat.peter.util.webscraping.WebScraper;
-import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
