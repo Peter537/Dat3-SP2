@@ -1,6 +1,5 @@
 package dat.peter.webscraping;
 
-import dat.peter.model.App_Type;
 import dat.peter.model.Game;
 import dat.peter.model.Scrape;
 import org.jsoup.Jsoup;
