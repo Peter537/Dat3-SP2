@@ -54,6 +54,9 @@ public class Game {
     @OneToMany(mappedBy = "fk_app_id")
     private Set<News> news = new HashSet<>();
 
+    @OneToMany(mappedBy = "fk_app_id")
+    private Set<Scrape> scrapes = new HashSet<>();
+
 
     public void addDeveloper(String developer) {
         // TODO:
