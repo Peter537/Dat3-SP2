@@ -2,6 +2,7 @@ package dat.peter.webscraping;
 
 import dat.peter.model.App_Type;
 import dat.peter.model.Game;
+import dat.peter.model.Scrape;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -116,6 +117,18 @@ public class WebScraper {
                     break;
             }
         });
+
+        Scrape scrape = new Scrape();
+        scrape.setScrape_date(LocalDateTime.now());
+        scrape.setPlayer_now(Long.parseLong(playersNowString.replace(",", "")));
+        scrape.setPlayers_peak_today(game.getAll_time_peak());
+        String text = document.select(".header-two-things > .header-thing.tooltipped.tooltipped-n > .header-thing-number.header-thing-good").text();
+        scrape.setCurrent_rating(0.0);
+        if (!text.isEmpty()) {
+            String rating = text.split(" ")[1].split("%")[0];
+            scrape.setCurrent_rating(Double.parseDouble(rating));
+        }
+        game.addScrape(scrape);
     }
 
     private static Document getDocument(String path) {
