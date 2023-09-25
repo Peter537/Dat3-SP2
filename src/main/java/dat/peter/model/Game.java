@@ -20,12 +20,9 @@ import java.util.Set;
 @ToString
 public class Game {
 
-
     @Transient
-    EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryConfig("SteamDB");
-
-    @Transient
-    private DAO<Developer> developerDAO = new DAO<>(Developer.class, emf);
+    @ToString.Exclude
+    private DAO<Developer> developerDAO = new DAO<>(Developer.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
 
     @Id
     private long app_id;
