@@ -12,6 +12,7 @@ We tried using jsoup to scrape the website, but we ran into problems since the w
 To circumvent this, we did a manual extraction of html files instead.
 ## DTOs (Which ones have you used and for what?)
 ## Persistence (JPA considerations and implementation)
+We has a lot of discussion about whether the persistences should be directly in the webscraper, since the webscraper is the only one using the data. We decided to make a separate persistence layer, since it would be easier to test and maintain and to make our program more futureproof if we in the future want to hande more data from different sources.
 ## Test (strategy and implementation)
 ## DAO (implementation)
 ## Exception handling (which errors can occur - and how do you handle them?)

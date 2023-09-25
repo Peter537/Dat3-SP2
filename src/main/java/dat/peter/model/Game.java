@@ -59,11 +59,11 @@ public class Game {
 
 
     public void addDeveloper(String developer) {
-        // TODO:
+        // TODO: check DB if the developer exists and link to existing if it does. Else it should create a new developer and link it
     }
 
     public void addPublisher(String publisher) {
-        // TODO:
+        // TODO: check DB if the publisher exists and link to existing if it does. Else it should create a new publisher and link it
     }
 
     public void setType(String type) {
