@@ -3,46 +3,39 @@ package dat.peter.api;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 public class SteamAPI {
 
+    private static final String API_URL = "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?count=1&appid=";
+
     public SteamCall call(long appid) {
-        SteamCall steamCall = null;
         try {
-            // Make HTTP request
-            URL url = new URL("https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=" + appid + "&count=1");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL + appid))
+                    .GET()
+                    .build();
 
-            // Wait 2 seconds to avoid rate limiting or bot detection
-            Thread.sleep(2000);
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            // Get response
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+            if (response.statusCode() == 200) {
+                String responseBody = response.body();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(responseBody);
+                JsonNode newsItems = jsonNode.get("appnews").get("newsitems").get(0);
+                return objectMapper.readValue(newsItems.toString(), SteamCall.class).getSteamCall();
+            } else {
+                System.err.println("HTTP Request failed with status code: " + response.statusCode());
             }
-
-            // Deserialize JSON response
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(content.toString());
-
-            // Get the first news item
-            JsonNode newsItems = jsonNode.get("appnews").get("newsitems").get(0);
-            steamCall = objectMapper.readValue(newsItems.toString(), SteamCall.class).getSteamCall();
-
-            in.close();
-            con.disconnect();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (IOException | InterruptedException e) {
+            System.err.println("Error while making the request: " + e.getMessage());
         }
-
-        return steamCall;
+        return null;
     }
 }
