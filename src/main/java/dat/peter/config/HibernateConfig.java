@@ -54,7 +54,6 @@ public class HibernateConfig {
                 Publisher.class,
                 Scrape.class,
                 dat.peter.model.System.class
-
         );
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

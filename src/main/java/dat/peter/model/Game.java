@@ -3,15 +3,19 @@ package dat.peter.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Game {
 
     @Id
@@ -51,4 +55,23 @@ public class Game {
     private Set<News> news = new HashSet<>();
 
 
+    public void addDeveloper(String developer) {
+        // TODO:
+    }
+
+    public void addPublisher(String publisher) {
+        // TODO:
+    }
+
+    public void setType(String type) {
+        // TODO:
+    }
+
+    public void addSystem(String system) {
+        // TODO:
+    }
+
+    public void addScrape(Scrape scrape) {
+        // TODO:
+    }
 }
