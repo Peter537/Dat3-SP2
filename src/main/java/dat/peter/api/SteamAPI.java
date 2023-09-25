@@ -22,7 +22,7 @@ public class SteamAPI {
      * @param appid The ID of the game for which to fetch news.
      * @return A SteamCall object containing the fetched news data, or null if the call fails.
      */
-    public SteamCall call(long appid) {
+    public static SteamCall call(long appid) {
         try {
             // Create an HTTP client
             HttpClient client = HttpClient.newHttpClient();
