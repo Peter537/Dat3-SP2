@@ -1,20 +1,14 @@
 package dat.peter.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
-public enum App_Type {
+@Entity
+public class App_Type {
 
-    GAME("Game"),
-    APP("Application"),
-    TOOL("Tool"),
-    UTILITY("Utility"),
-    OTHER("Other");
-
+    @Id
     private String type;
-
-    App_Type(String type) {
-        this.type = type;
-    }
 
 }
