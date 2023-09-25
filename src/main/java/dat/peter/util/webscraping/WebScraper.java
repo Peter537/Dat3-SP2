@@ -4,6 +4,7 @@ import dat.peter.model.Game;
 import dat.peter.model.Scrape;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -14,40 +15,45 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WebScraper {
 
     private static final String BASE_PATH = "SteamDB/steamdb_info.html";
     private static final String APP_FILE_PATH = "SteamDB/#.html";
 
-    public static void main(String[] args) {
-        getData().forEach(System.out::println);
+    public static void main(String[] args) {getData().forEach(System.out::println);
     }
 
     public static List<Game> getData() {
-        List<Game> games = new ArrayList<>();
         Document document = getDocument(BASE_PATH);
-        document.select(".row > .span6 > .table-products.table-hover ").forEach(table -> {
-            table.select("thead > tr > th > a").forEach(thead -> {
-                if (thead.text().equalsIgnoreCase("Most Played Games")) {
-                    table.select("tbody > tr").forEach(row -> {
-                        Elements td = row.select("td");
-                        String appId = td.get(0).select("a").attr("href").split("/")[2];
-                        String name = td.get(1).text();
-                        String playersNowString = td.get(2).text();
-                        String peakTodayString = td.get(3).text();
-                        Game game = new Game();
-                        game.setApp_id(Long.parseLong(appId));
-                        game.setTitle(name);
-                        game.setAll_time_peak(Long.parseLong(peakTodayString.replace(",", "")));
-                        addAdditionalGameData(game, playersNowString);
-                        games.add(game);
-                    });
-                }
-            });
-        });
 
-        return games;
+        return document.select(".row > .span6 > .table-products.table-hover ")
+                .stream()
+                .filter(WebScraper::isMostPlayedGamesTable)
+                .flatMap(table -> table.select("tbody > tr").stream())
+                .map(WebScraper::createGameFromRow)
+                .collect(Collectors.toList());
+    }
+
+    private static boolean isMostPlayedGamesTable(Element table) {
+        Element element = table.selectFirst("thead > tr > th > a");
+        return element != null && "Most Played Games".equalsIgnoreCase(element.text());
+    }
+
+    private static Game createGameFromRow(Element row) {
+        Elements td = row.select("td");
+        String appId = td.get(0).select("a").attr("href").split("/")[2];
+        String name = td.get(1).text();
+        String playersNowString = td.get(2).text();
+        String peakTodayString = td.get(3).text();
+
+        Game game = new Game();
+        game.setApp_id(Long.parseLong(appId));
+        game.setTitle(name);
+        game.setAll_time_peak(Long.parseLong(peakTodayString.replace(",", "")));
+        addAdditionalGameData(game, playersNowString);
+        return game;
     }
 
     private static void addAdditionalGameData(Game game, String playersNowString) {
