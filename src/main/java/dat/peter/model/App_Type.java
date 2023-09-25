@@ -1,13 +1,20 @@
 package dat.peter.model;
 
+import lombok.Getter;
 
+@Getter
 public enum App_Type {
-    GAME,
-    APP,
-    TOOL,
-    UTILITY,
-    OTHER
 
+    GAME("Game"),
+    APP("Application"),
+    TOOL("Tool"),
+    UTILITY("Utility"),
+    OTHER("Other");
 
-    //TODO: dunno what to annotate this class
+    private String type;
+
+    App_Type(String type) {
+        this.type = type;
+    }
+
 }
