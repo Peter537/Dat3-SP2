@@ -26,4 +26,6 @@ private String feed_type;
 
 @ManyToOne
 private Game fk_app_id;
+
+
 }
