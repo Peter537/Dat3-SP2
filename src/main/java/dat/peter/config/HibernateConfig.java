@@ -44,7 +44,17 @@ public class HibernateConfig {
         configuration.setProperties(props);
         // TODO: addAnnotatedClasses(configuration, X.class, Y.class, Z.class);
         addAnnotatedClasses(
-                configuration, Developer.class, Game.class, News.class, Publisher.class, Scrape.class, System.class
+                configuration,
+                Developer.class,
+                Game.class,
+                Game_Developer.class,
+                Game_Publishers.class,
+                Game_System.class,
+                News.class,
+                Publisher.class,
+                Scrape.class,
+                dat.peter.model.System.class
+
         );
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

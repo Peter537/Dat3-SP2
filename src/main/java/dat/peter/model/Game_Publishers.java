@@ -2,6 +2,8 @@ package dat.peter.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Game_Publishers {
@@ -9,9 +11,11 @@ public class Game_Publishers {
     @Id
     private long id;
 
-    private String fk_app_id;
+    @ManyToOne
+    private Game fk_app_id;
 
-    private String fk_publisher_name;
+    @ManyToOne
+    private Publisher fk_publisher_name;
 
 
 }

@@ -38,11 +38,11 @@ public class Game {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-   @OneToMany(mappedBy = "fk_app_id")
-   private Set<Game_Developer> developers = new HashSet<>();
+    @OneToMany(mappedBy = "fk_app_id")
+    private Set<Game_Developer> developers = new HashSet<>();
 
-@OneToMany(mappedBy = "fk_app_id")
-private Set<Game_System> systems = new HashSet<>();
+    @OneToMany(mappedBy = "fk_app_id")
+    private Set<Game_System> systems = new HashSet<>();
 
     @OneToMany(mappedBy = "fk_app_id")
     private Set<Game_Publishers> publishers = new HashSet<>();

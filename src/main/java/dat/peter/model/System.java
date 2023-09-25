@@ -7,6 +7,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -19,6 +20,6 @@ public class System {
     private String platform;
 
     @OneToMany(mappedBy = "platform")
-    private Set<Game_System> games;
+    private Set<Game_System> games = new HashSet<>();
 
 }

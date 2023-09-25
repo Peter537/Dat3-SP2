@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,5 +22,5 @@ public class Publisher {
 
 
     @OneToMany(mappedBy = "fk_publisher_name")
-    private Set<Game_Publishers> games;
+    private Set<Game_Publishers> games = new HashSet<>();
 }
