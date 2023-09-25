@@ -129,6 +129,13 @@ public class WebScraper {
             scrape.setCurrent_rating(Double.parseDouble(rating));
         }
         game.addScrape(scrape);
+
+        String description = document.select(".header-description").text();
+        game.setDescription(description);
+
+        String logo = document.select(".js-open-screenshot-viewer > img").attr("src");
+        System.out.println(logo);
+        game.setLogo(logo.getBytes());
     }
 
     private static Document getDocument(String path) {
