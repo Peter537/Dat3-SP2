@@ -38,14 +38,14 @@ public class Game {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToMany
-    private Set<Developer> developers = new HashSet<>();
+   @OneToMany(mappedBy = "fk_app_id")
+   private Set<Game_Developer> developers = new HashSet<>();
 
-    @ManyToMany
-    private Set<System> systems = new HashSet<>();
+@OneToMany(mappedBy = "fk_app_id")
+private Set<Game_System> systems = new HashSet<>();
 
-    @ManyToMany
-    private Set<Publisher> publishers = new HashSet<>();
+    @OneToMany(mappedBy = "fk_app_id")
+    private Set<Game_Publishers> publishers = new HashSet<>();
 
     @OneToMany(mappedBy = "fk_app_id")
     private Set<News> news = new HashSet<>();

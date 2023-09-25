@@ -1,5 +1,6 @@
 package dat.peter.config;
 
+import dat.peter.model.*;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.NoArgsConstructor;
 import org.hibernate.SessionFactory;
@@ -7,6 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.lang.System;
 import java.util.Properties;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
@@ -42,7 +44,7 @@ public class HibernateConfig {
         configuration.setProperties(props);
         // TODO: addAnnotatedClasses(configuration, X.class, Y.class, Z.class);
         addAnnotatedClasses(
-                configuration
+                configuration, Developer.class, Game.class, News.class, Publisher.class, Scrape.class, System.class
         );
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

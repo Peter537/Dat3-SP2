@@ -3,6 +3,7 @@ package dat.peter.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,6 @@ public class Developer {
     @Id
     private String name;
 
-    @ManyToMany
-    private Set<Game> games;
+    @OneToMany(mappedBy = "fk_developer_name")
+    private Set<Game_Developer> games;
 }
