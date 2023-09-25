@@ -45,6 +45,7 @@ public class HibernateConfig {
         // TODO: addAnnotatedClasses(configuration, X.class, Y.class, Z.class);
         addAnnotatedClasses(
                 configuration,
+                App_Type.class,
                 Developer.class,
                 Game.class,
                 Game_Developer.class,
