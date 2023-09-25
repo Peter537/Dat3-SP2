@@ -23,13 +23,17 @@ public class Game {
 
     private byte[] logo;
 
-
+    @Enumerated
+    private App_Type type;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToMany
     private Set<Developer> developers;
+
+    @ManyToMany
+    private Set<Publisher> publishers;
 
 
 

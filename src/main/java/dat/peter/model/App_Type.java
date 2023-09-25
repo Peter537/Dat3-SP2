@@ -1,7 +1,7 @@
 package dat.peter.model;
 
 
-public enum app_type {
+public enum App_Type {
     GAME,
     APP,
     TOOL,
