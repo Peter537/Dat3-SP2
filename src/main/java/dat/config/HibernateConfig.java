@@ -85,30 +85,58 @@ public class HibernateConfig {
         return entityManagerFactory;
     }
 
-    public static List<Class<?>> getAnnotatedClasses(String packageName) {
+    private static List<Class<?>> getAnnotatedClasses(String packageName) {
+        try {
+            return findClassesInPackage(packageName);
+        } catch (IOException | ClassNotFoundException e) {
+            return new ArrayList<>();
+        }
+    }
+
+    private static List<Class<?>> findClassesInPackage(String packageName) throws IOException, ClassNotFoundException {
         String packagePath = packageName.replace('.', '/');
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-        try {
-            return Collections.list(classLoader.getResources(packagePath))
-                    .stream()
-                    .map(URL::getFile)
-                    .map(File::new)
-                    .filter(File::isDirectory)
-                    .flatMap(packageDir -> Arrays.stream(Objects.requireNonNull(packageDir.list())))
-                    .filter(classFile -> classFile.endsWith(".class"))
-                    .map(classFile -> packageName + '.' + classFile.substring(0, classFile.length() - 6))
-                    .map(className -> {
-                        try {
-                            return Class.forName(className);
-                        } catch (ClassNotFoundException e) {
-                            return null;
-                        }
-                    })
-                    .filter(clazz -> clazz != null && clazz.isAnnotationPresent(Entity.class))
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            return Collections.emptyList();
+        return getResources(packagePath, classLoader)
+                .stream()
+                .filter(File::isDirectory)
+                .flatMap(directory -> {
+                    try {
+                        return findClassesInDirectory(directory, packageName).stream();
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    private static List<File> getResources(String path, ClassLoader classLoader) throws IOException {
+        Enumeration<URL> resources = classLoader.getResources(path);
+        return Collections.list(resources)
+                .stream()
+                .map(url -> new File(url.getFile()))
+                .collect(Collectors.toList());
+    }
+
+    private static List<Class<?>> findClassesInDirectory(File directory, String packageName) throws ClassNotFoundException {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            return new ArrayList<>();
         }
+
+        List<Class<?>> annotatedClasses = new ArrayList<>();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                annotatedClasses.addAll(findClassesInDirectory(file, packageName + "." + file.getName()));
+            } else if (file.getName().endsWith(".class")) {
+                String className = packageName + "." + file.getName().substring(0, file.getName().length() - 6);
+                Class<?> clazz = Class.forName(className);
+                if (clazz.isAnnotationPresent(Entity.class)) {
+                    annotatedClasses.add(clazz);
+                }
+            }
+        }
+
+        return annotatedClasses;
     }
 }
