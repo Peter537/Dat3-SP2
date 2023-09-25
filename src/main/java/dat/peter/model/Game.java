@@ -36,7 +36,7 @@ public class Game {
 
     private byte[] logo;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     private App_Type type;
 
     @Column(columnDefinition = "TEXT")
@@ -53,6 +53,9 @@ public class Game {
 
     @OneToMany(mappedBy = "fk_app_id")
     private Set<News> news = new HashSet<>();
+
+    @OneToMany(mappedBy = "fk_app_id")
+    private Set<Scrape> scrapes = new HashSet<>();
 
 
     public void addDeveloper(String developer) {
