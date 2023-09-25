@@ -1,6 +1,6 @@
 package dat.peter.config;
 
-import dat.peter.model.*;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.NoArgsConstructor;
 import org.hibernate.SessionFactory;
@@ -8,8 +8,11 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.lang.System;
-import java.util.Properties;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
 public class HibernateConfig {
@@ -43,19 +46,20 @@ public class HibernateConfig {
     private static EntityManagerFactory getEntityManagerFactory(Configuration configuration, Properties props) {
         configuration.setProperties(props);
         // TODO: addAnnotatedClasses(configuration, X.class, Y.class, Z.class);
-        addAnnotatedClasses(
-                configuration,
-                App_Type.class,
-                Developer.class,
-                Game.class,
-                Game_Developer.class,
-                Game_Publishers.class,
-                Game_System.class,
-                News.class,
-                Publisher.class,
-                Scrape.class,
-                dat.peter.model.System.class
-        );
+        getAnnotatedClasses("dat.peter.model").forEach(configuration::addAnnotatedClass);
+//        addAnnotatedClasses(
+//                configuration,
+//                App_Type.class,
+//                Developer.class,
+//                Game.class,
+//                Game_Developer.class,
+//                Game_Publishers.class,
+//                Game_System.class,
+//                News.class,
+//                Publisher.class,
+//                Scrape.class,
+//                dat.peter.model.System.class
+//        );
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
@@ -79,5 +83,32 @@ public class HibernateConfig {
         }
 
         return entityManagerFactory;
+    }
+
+    public static List<Class<?>> getAnnotatedClasses(String packageName) {
+        String packagePath = packageName.replace('.', '/');
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+        try {
+            return Collections.list(classLoader.getResources(packagePath))
+                    .stream()
+                    .map(URL::getFile)
+                    .map(File::new)
+                    .filter(File::isDirectory)
+                    .flatMap(packageDir -> Arrays.stream(Objects.requireNonNull(packageDir.list())))
+                    .filter(classFile -> classFile.endsWith(".class"))
+                    .map(classFile -> packageName + '.' + classFile.substring(0, classFile.length() - 6))
+                    .map(className -> {
+                        try {
+                            return Class.forName(className);
+                        } catch (ClassNotFoundException e) {
+                            return null;
+                        }
+                    })
+                    .filter(clazz -> clazz != null && clazz.isAnnotationPresent(Entity.class))
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            return Collections.emptyList();
+        }
     }
 }
