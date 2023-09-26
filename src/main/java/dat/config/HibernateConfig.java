@@ -51,8 +51,7 @@ public class HibernateConfig {
         List<Class<?>> annotatedClasses = getAnnotatedClasses("dat.model");
         if (!annotatedClasses.isEmpty()) {
             annotatedClasses.forEach(configuration::addAnnotatedClass);
-        }
-        else {
+        } else {
             addAnnotatedClasses(
                     configuration,
                     App_Type.class,
