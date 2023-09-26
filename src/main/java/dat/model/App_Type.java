@@ -13,4 +13,7 @@ public class App_Type {
     @Id
     private String type;
 
+    public App_Type(String type) {
+        this.type = type;
+    }
 }
