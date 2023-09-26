@@ -1,5 +1,6 @@
 package dat.config;
 
+import dat.model.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.System;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -46,20 +48,25 @@ public class HibernateConfig {
     private static EntityManagerFactory getEntityManagerFactory(Configuration configuration, Properties props) {
         configuration.setProperties(props);
         // TODO: addAnnotatedClasses(configuration, X.class, Y.class, Z.class);
-        getAnnotatedClasses("dat.model").forEach(configuration::addAnnotatedClass);
-//        addAnnotatedClasses(
-//                configuration,
-//                App_Type.class,
-//                Developer.class,
-//                Game.class,
-//                Game_Developer.class,
-//                Game_Publishers.class,
-//                Game_System.class,
-//                News.class,
-//                Publisher.class,
-//                Scrape.class,
-//                dat.peter.model.System.class
-//        );
+        List<Class<?>> annotatedClasses = getAnnotatedClasses("dat.model");
+        if (!annotatedClasses.isEmpty()) {
+            annotatedClasses.forEach(configuration::addAnnotatedClass);
+        }
+        else {
+            addAnnotatedClasses(
+                    configuration,
+                    App_Type.class,
+                    Developer.class,
+                    Game.class,
+                    Game_Developer.class,
+                    Game_Publishers.class,
+                    Game_System.class,
+                    News.class,
+                    Publisher.class,
+                    Scrape.class,
+                    dat.model.System.class
+            );
+        }
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
