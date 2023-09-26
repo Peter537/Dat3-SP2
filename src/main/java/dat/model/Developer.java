@@ -20,7 +20,6 @@ public class Developer {
     @OneToMany(mappedBy = "fk_developer_name")
     private Set<Game_Developer> games = new HashSet<>();
 
-
     public Developer(String name) {
         this.name = name;
     }
