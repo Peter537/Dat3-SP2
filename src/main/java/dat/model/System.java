@@ -21,4 +21,7 @@ public class System {
     @OneToMany(mappedBy = "platform")
     private Set<Game_System> games = new HashSet<>();
 
+    public System(String platform) {
+        this.platform = platform;
+    }
 }
