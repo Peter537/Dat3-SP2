@@ -13,7 +13,7 @@
 
 ## Links
 
-We have utilizsed following links:
+We have utilized following links:
 - SteamDB: https://steamdb.info/
 - SteamAPI:
   - Docs: https://partner.steamgames.com/doc/webapi
@@ -21,15 +21,15 @@ We have utilizsed following links:
 
 ## Considerations
 
-We had a lot of discussion about whether the persistences should be directly in the webscraper, since the webscraper is the only one using the data. We decided to make a separate persistence layer, since it would be easier to test and maintain and to make our program more futureproof if we in the future want to hande more data from different sources.
+We had a lot of discussion about whether the persistences should be directly in the webscraper, since the webscraper is the only one using the data. We decided to make a separate persistence layer, since it would be easier to test and maintain and to make our program more future-proof if we in the future want to hande more data from different sources.
 
 ### Edge cases
-- We use switchcase to handle the output of inforomation, since for example; Source SDK Base 2007 only has 4 rows of info while others could have 8 or more
+- We use switchcase to handle the output of information, since for example; Source SDK Base 2007 only has 4 rows of info while others could have 8 or more
 - Some elements in an entity dont have unique values, therefore we check whether or not the element exists already, if not we create a new entry - otherwise we refer to the preexisting entry
 
 ### Error handling
 
-- We use runtimeexceptions to handle errors since our errors are few. If we could have taken data from steamDB then we would have done our errorhandling differently, but since we only use static informatin from the website in our project, we just keep the errorhandling lowlevel
+- We use runtime exceptions to handle errors since our errors are few. If we could have taken data from steamDB then we would have done our error handling differently using try-catches, but since we only use static informaton from the website in our project, we just keep the error handling on a low level
 
 ### Potential improvements
 
