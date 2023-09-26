@@ -9,7 +9,15 @@
 
 ## EER Diagram
 
+![EER Diagram](documentation/EER.png)
+
 ## Links
+
+Vi har brugt disse links:
+- SteamDB: https://steamdb.info/
+- SteamAPI:
+  - Docs: https://partner.steamgames.com/doc/webapi
+  - GetNewsForApp: https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/
 
 ## Business model (which data did you decide to fetch - and for what?)
 Data from SteamDB and the Steam API. Vores primær scraping er om players og player counts, vi vil gerne lave en DB hvor man nemt kan slå current player count, info om spillet samt recent nyheder.
