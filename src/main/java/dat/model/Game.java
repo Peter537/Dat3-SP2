@@ -28,6 +28,14 @@ public class Game {
     @ToString.Exclude
     private DAO<Publisher> publisherDAO = new DAO<>(Publisher.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
 
+    @Transient
+    @ToString.Exclude
+    private DAO<System> systemDAO = new DAO<>(System.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+
+    @Transient
+    @ToString.Exclude
+    private DAO<App_Type> app_typeDAO = new DAO<>(App_Type.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+
     @Id
     private long app_id;
 
@@ -70,8 +78,7 @@ public class Game {
 
     public void addDeveloper(String developer) {
         if (developerDAO.findById(developer) == null) {
-            Developer dev = developerDAO.update(new Developer(developer));
-            Game_Developer gamedev = new Game_Developer(this, dev);
+            Game_Developer gamedev = new Game_Developer(this, new Developer(developer));
             developers.add(gamedev);
         }
         else {
@@ -80,30 +87,38 @@ public class Game {
         }
     }
 
-        public void addPublisher (String publisher){
-            // TODO: check DB if the publisher exists and link to existing if it does. Else it should create a new publisher and link it
-            //if (publisherDAO.findById(publisher) == null) {
-//                publisherDAO.save(new Publisher(publisher));
-//                Publisher pub = publisherDAO.findById(publisher);
-//                Game_Publishers gamepub = new Game_Publishers(this, pub);
-//                publishers.add(gamepub);
-//            }
-//            else {
-//                Game_Publishers pub = new Game_Publishers(this, publisherDAO.findById(publisher));
-//                publishers.add(pub);
-//            }
-
+    public void addPublisher (String publisher){
+        if (publisherDAO.findById(publisher) == null) {
+            Game_Publishers gamepub = new Game_Publishers(this, new Publisher(publisher));
+            publishers.add(gamepub);
         }
-
-        public void setType (String type){
-            // TODO:
-        }
-
-        public void addSystem (String system){
-            // TODO:
-        }
-
-        public void addScrape (Scrape scrape){
-            // TODO:
+        else {
+            Game_Publishers pub = new Game_Publishers(this, publisherDAO.findById(publisher));
+            publishers.add(pub);
         }
     }
+
+    public void setType (String type){
+        if (app_typeDAO.findById(type) == null) {
+            this.type = app_typeDAO.update(new App_Type(type));
+        }
+        else {
+            this.type = app_typeDAO.findById(type);
+        }
+    }
+
+    public void addSystem (String system){
+        if (systemDAO.findById(system) == null) {
+            Game_System gamesys = new Game_System(this, new System(system));
+            systems.add(gamesys);
+        }
+        else {
+            Game_System sys = new Game_System(this, systemDAO.findById(system));
+            systems.add(sys);
+        }
+    }
+
+    public void addScrape (Scrape scrape){
+        // TODO:
+    }
+}
