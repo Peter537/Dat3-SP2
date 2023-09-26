@@ -43,3 +43,12 @@ We had a lot of discussion about whether the persistences should be directly in 
 ### Potential improvements
 
 - Right now our WebScaper class is somewhat "closed" since we instantiate the Game objects from within the class. We could have potentially made a DTO or something alike that would return from the WebScaper class and then create the Game objects somewhere else. So in other words we would have been able to make a fairly generic interface for the WebScraper class which would return the type DTO if at any point we needed to scrape other websites.
+
+
+
+## Test (strategy and implementation)
+## DAO (implementation)
+## Exception handling (which errors can occur - and how do you handle them?)
+## Use of parallel fetching (threads): How did you implement it?
+## Functional programming: did you use any - and if so - how?
+## Documentation: What did you find most important to document - and why?
