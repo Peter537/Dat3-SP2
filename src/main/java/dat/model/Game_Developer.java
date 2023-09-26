@@ -14,7 +14,7 @@ public class Game_Developer {
     @ManyToOne
     private Game fk_app_id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Developer fk_developer_name;
 
     public Game_Developer(Game fk_app_id, Developer fk_developer_name) {
