@@ -5,37 +5,35 @@ import dat.dao.boilerplate.dao.GameDAO;
 import dat.dto.GameLatestNewsDTO;
 import dat.dto.GameLatestPlayerCountDTO;
 import dat.util.Persister;
-import dat.util.webscraping.WebScraper;
 import jakarta.persistence.EntityManagerFactory;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GameDAOTest {
 
-    EntityManagerFactory emf = HibernateConfig.getEntityManagerFactoryConfig("SteamDB");
-    private GameDAO gameDAO = new GameDAO(emf);
+    private final GameDAO gameDAO = new GameDAO(HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+
+    @BeforeAll
+    void setUp() {
+        Persister persister = new Persister();
+        persister.persist();
+    }
 
     @Test
     void getLatestNewsTest() {
-        Persister persister = new Persister();
-        persister.persist();
-
         GameLatestNewsDTO latestNewsDTO = gameDAO.getLatestNews(730);
-
         assertEquals("Counter-Strike: Global Offensive", latestNewsDTO.gameTitle());
-
     }
 
     @Test
     void getLatestPlayerCountTest() {
-        Persister persister = new Persister();
-        persister.persist();
-
-        GameLatestPlayerCountDTO latestNewsDTO = gameDAO.getLatestPlayerCount(730);
-        System.out.println(latestNewsDTO);
-
-
+        GameLatestPlayerCountDTO latestPlayerCount = gameDAO.getLatestPlayerCount(730);
+        System.out.println(latestPlayerCount);
+        assertEquals("Counter-Strike: Global Offensive", latestPlayerCount.gameTitle());
+        assertEquals(111, latestPlayerCount.peakPlayerCount());
     }
-    
 }
