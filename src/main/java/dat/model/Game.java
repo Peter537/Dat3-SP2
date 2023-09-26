@@ -2,6 +2,7 @@ package dat.model;
 
 
 import dat.config.HibernateConfig;
+import dat.dao.GameDevDAO;
 import dat.dao.boilerplate.DAO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,6 +27,10 @@ public class Game {
 
     @Transient
     @ToString.Exclude
+    private GameDevDAO game_developerDAO = new GameDevDAO(HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+
+    @Transient
+    @ToString.Exclude
     private DAO<Publisher> publisherDAO = new DAO<>(Publisher.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
 
     @Transient
@@ -35,6 +40,10 @@ public class Game {
     @Transient
     @ToString.Exclude
     private DAO<App_Type> app_typeDAO = new DAO<>(App_Type.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+
+    @Transient
+    @ToString.Exclude
+    private DAO<Scrape> scrapeDAO = new DAO<>(Scrape.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
 
     @Id
     private long app_id;
@@ -63,16 +72,16 @@ public class Game {
     @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
     private Set<Game_Developer> developers = new HashSet<>();
 
-    @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "fk_app_id")
     private Set<Game_System> systems = new HashSet<>();
 
-    @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "fk_app_id")
     private Set<Game_Publishers> publishers = new HashSet<>();
 
     @OneToMany(mappedBy = "fk_app_id")
     private Set<News> news = new HashSet<>();
 
-    @OneToMany(mappedBy = "fk_app_id")
+    @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
     private Set<Scrape> scrapes = new HashSet<>();
 
 
@@ -82,8 +91,14 @@ public class Game {
             developers.add(gamedev);
         }
         else {
-            Game_Developer dev = new Game_Developer(this, developerDAO.findById(developer));
-            developers.add(dev);
+            Game_Developer dev = game_developerDAO.getByReferences(this, developerDAO.findById(developer));
+            if (dev == null) {
+                dev = new Game_Developer(this, developerDAO.findById(developer));
+                developers.add(dev);
+            }
+            else {
+                developers.add(dev);
+            }
         }
     }
 
@@ -107,7 +122,7 @@ public class Game {
         }
     }
 
-    public void addSystem (String system){
+    public void addSystem (String system) {
         if (systemDAO.findById(system) == null) {
             Game_System gamesys = new Game_System(this, new System(system));
             systems.add(gamesys);
@@ -118,7 +133,8 @@ public class Game {
         }
     }
 
-    public void addScrape (Scrape scrape){
-        // TODO:
+    public void addScrape (Scrape scrape) {
+        scrape.setFk_app_id(this);
+        scrapes.add(scrape);
     }
 }
