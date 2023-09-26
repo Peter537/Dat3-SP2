@@ -1,4 +1,4 @@
-package dat.webscraping;
+package dat.util.webscraping;
 
 import dat.model.Game;
 import dat.util.webscraping.WebScraper;

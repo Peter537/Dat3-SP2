@@ -1,4 +1,4 @@
-package dat.api;
+package dat.util.api;
 
 import dat.util.api.SteamAPI;
 import dat.util.api.SteamCall;
