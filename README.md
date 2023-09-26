@@ -25,11 +25,11 @@ We had a lot of discussion about whether the persistences should be directly in 
 
 ### Edge cases
 - We use switch case to handle the output of information, since for example; Source SDK Base 2007 only has 4 rows of info while others could have 8 or more
-- Some elements in an entity dont have unique values, therefore we check whether or not the element exists already, if not we create a new entry - otherwise we refer to the preexisting entry
+- Some elements in an entity don't have unique values, therefore we check whether or not the element exists already, if not we create a new entry - otherwise we refer to the preexisting entry
 
 ### Error handling
 
-- We use runtime exceptions to handle errors since our errors are few. If we could have taken data from steamDB then we would have done our error-handling differently, but since we only use static informatin from the website in our project, we just keep the error-handling low level
+- We use runtime exceptions to handle errors since our errors are few. If we could have taken data from steamDB then we would have done our error-handling differently using try-catches, but since we only use static information from the website in our project, we just keep the error-handling low level
 
 ### Potential improvements
 
