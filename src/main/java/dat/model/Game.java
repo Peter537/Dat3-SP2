@@ -3,6 +3,8 @@ package dat.model;
 
 import dat.config.HibernateConfig;
 import dat.dao.GameDevDAO;
+import dat.dao.GamePubDAO;
+import dat.dao.GameSysDAO;
 import dat.dao.boilerplate.DAO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,7 +37,15 @@ public class Game {
 
     @Transient
     @ToString.Exclude
+    private GamePubDAO game_publisherDAO = new GamePubDAO(HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+
+    @Transient
+    @ToString.Exclude
     private DAO<System> systemDAO = new DAO<>(System.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+
+    @Transient
+    @ToString.Exclude
+    private GameSysDAO game_systemDAO = new GameSysDAO(HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
 
     @Transient
     @ToString.Exclude
@@ -72,10 +82,10 @@ public class Game {
     @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
     private Set<Game_Developer> developers = new HashSet<>();
 
-    @OneToMany(mappedBy = "fk_app_id")
+    @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
     private Set<Game_System> systems = new HashSet<>();
 
-    @OneToMany(mappedBy = "fk_app_id")
+    @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
     private Set<Game_Publishers> publishers = new HashSet<>();
 
     @OneToMany(mappedBy = "fk_app_id")
@@ -108,8 +118,14 @@ public class Game {
             publishers.add(gamepub);
         }
         else {
-            Game_Publishers pub = new Game_Publishers(this, publisherDAO.findById(publisher));
-            publishers.add(pub);
+            Game_Publishers pub = game_publisherDAO.getByReferences(this, publisherDAO.findById(publisher));
+            if (pub == null) {
+                pub = new Game_Publishers(this, publisherDAO.findById(publisher));
+                publishers.add(pub);
+            }
+            else {
+                publishers.add(pub);
+            }
         }
     }
 
@@ -128,8 +144,14 @@ public class Game {
             systems.add(gamesys);
         }
         else {
-            Game_System sys = new Game_System(this, systemDAO.findById(system));
-            systems.add(sys);
+            Game_System sys = game_systemDAO.getByReferences(this, systemDAO.findById(system));
+            if (sys == null) {
+                sys = new Game_System(this, systemDAO.findById(system));
+                systems.add(sys);
+            }
+            else {
+                systems.add(sys);
+            }
         }
     }
 
