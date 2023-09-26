@@ -10,16 +10,14 @@ class SteamAPITest {
 
     @Test
     void getSteamNewsPositive() {
-        SteamAPI steamAPI = new SteamAPI();
-        SteamCall steamCall = steamAPI.call(730);
+        SteamCall steamCall = SteamAPI.call(730);
+        assertNotNull(steamCall);
         assertEquals(730, steamCall.getApp_id());
     }
 
     @Test
     void getSteamNewsNegative() {
-        SteamAPI steamAPI = new SteamAPI();
-        SteamCall steamCall = steamAPI.call(-730);
+        SteamCall steamCall = SteamAPI.call(-730);
         assertNull(steamCall);
     }
-
 }
