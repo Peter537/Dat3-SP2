@@ -18,5 +18,9 @@ public class Game_Publishers {
     @ManyToOne
     private Publisher fk_publisher_name;
 
+    public Game_Publishers(Game fk_app_id, Publisher fk_publisher_name) {
+        this.fk_app_id = fk_app_id;
+        this.fk_publisher_name = fk_publisher_name;
+    }
 
 }

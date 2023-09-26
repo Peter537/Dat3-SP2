@@ -24,6 +24,10 @@ public class Game {
     @ToString.Exclude
     private DAO<Developer> developerDAO = new DAO<>(Developer.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
 
+    @Transient
+    @ToString.Exclude
+    private DAO<Publisher> publisherDAO = new DAO<>(Publisher.class, HibernateConfig.getEntityManagerFactoryConfig("SteamDB"));
+
     @Id
     private long app_id;
 
@@ -48,13 +52,13 @@ public class Game {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(mappedBy = "fk_app_id")
+    @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
     private Set<Game_Developer> developers = new HashSet<>();
 
-    @OneToMany(mappedBy = "fk_app_id")
+    @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
     private Set<Game_System> systems = new HashSet<>();
 
-    @OneToMany(mappedBy = "fk_app_id")
+    @OneToMany(mappedBy = "fk_app_id", cascade = CascadeType.MERGE)
     private Set<Game_Publishers> publishers = new HashSet<>();
 
     @OneToMany(mappedBy = "fk_app_id")
@@ -66,13 +70,29 @@ public class Game {
 
     public void addDeveloper(String developer) {
         if (developerDAO.findById(developer) == null) {
-            Game_Developer dev = new Game_Developer(this, new Developer(developer));
+            Developer dev = developerDAO.update(new Developer(developer));
+            Game_Developer gamedev = new Game_Developer(this, dev);
+            developers.add(gamedev);
+        }
+        else {
+            Game_Developer dev = new Game_Developer(this, developerDAO.findById(developer));
             developers.add(dev);
         }
     }
 
         public void addPublisher (String publisher){
             // TODO: check DB if the publisher exists and link to existing if it does. Else it should create a new publisher and link it
+            //if (publisherDAO.findById(publisher) == null) {
+//                publisherDAO.save(new Publisher(publisher));
+//                Publisher pub = publisherDAO.findById(publisher);
+//                Game_Publishers gamepub = new Game_Publishers(this, pub);
+//                publishers.add(gamepub);
+//            }
+//            else {
+//                Game_Publishers pub = new Game_Publishers(this, publisherDAO.findById(publisher));
+//                publishers.add(pub);
+//            }
+
         }
 
         public void setType (String type){
