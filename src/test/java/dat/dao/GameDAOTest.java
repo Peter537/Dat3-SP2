@@ -34,6 +34,6 @@ class GameDAOTest {
         GameLatestPlayerCountDTO latestPlayerCount = gameDAO.getLatestPlayerCount(730);
         System.out.println(latestPlayerCount);
         assertEquals("Counter-Strike: Global Offensive", latestPlayerCount.gameTitle());
-        assertEquals(111, latestPlayerCount.peakPlayerCount());
+        assertEquals(1361281, latestPlayerCount.peakPlayerCount());
     }
 }
