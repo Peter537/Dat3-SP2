@@ -1,7 +1,6 @@
 package dat.util.webscraping;
 
 import dat.model.Game;
-import dat.util.webscraping.WebScraper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
