@@ -1,8 +1,6 @@
 package dat.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -10,12 +8,13 @@ import lombok.NoArgsConstructor;
 public class Game_Publishers {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
     private Game fk_app_id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Publisher fk_publisher_name;
 
     public Game_Publishers(Game fk_app_id, Publisher fk_publisher_name) {
