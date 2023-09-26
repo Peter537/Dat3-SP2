@@ -1,4 +1,4 @@
-package dat.dao.boilerplate.dao;
+package dat.dao;
 
 import dat.dao.boilerplate.DAO;
 import dat.dto.GameLatestNewsDTO;

@@ -1,11 +1,9 @@
 package dat.dao;
 
 import dat.config.HibernateConfig;
-import dat.dao.boilerplate.dao.GameDAO;
 import dat.dto.GameLatestNewsDTO;
 import dat.dto.GameLatestPlayerCountDTO;
 import dat.util.Persister;
-import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
