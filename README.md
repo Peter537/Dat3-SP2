@@ -13,14 +13,14 @@
 
 ## Links
 
-Vi har brugt disse links:
+We have utilizsed following links:
 - SteamDB: https://steamdb.info/
 - SteamAPI:
   - Docs: https://partner.steamgames.com/doc/webapi
   - GetNewsForApp: https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/
 
 ## Business model (which data did you decide to fetch - and for what?)
-Data from SteamDB and the Steam API. Vores primær scraping er om players og player counts, vi vil gerne lave en DB hvor man nemt kan slå current player count, info om spillet samt recent nyheder.
+Data from SteamDB and the SteamAPI. Our primary scraping regards players and playercounts. We want to make a database where its easy to find current-player-count's, info about games, and also news about said games.
 
 ## Project management (how did you organize the team and work?)
 
@@ -33,7 +33,7 @@ To circumvent this, we did a manual extraction of html files instead.
 ### API
 
 ## Considerations
-We has a lot of discussion about whether the persistences should be directly in the webscraper, since the webscraper is the only one using the data. We decided to make a separate persistence layer, since it would be easier to test and maintain and to make our program more futureproof if we in the future want to hande more data from different sources.
+We had a lot of discussion about whether the persistences should be directly in the webscraper, since the webscraper is the only one using the data. We decided to make a separate persistence layer, since it would be easier to test and maintain and to make our program more futureproof if we in the future want to hande more data from different sources.
 
 
 ### Edge cases
@@ -42,4 +42,4 @@ We has a lot of discussion about whether the persistences should be directly in 
 
 ### Potential improvements
 
-- Lige nu er vores WebScraper klasse ret "lukket" ift. at vi opretter Game objekterne inde fra klassen, man kunne evt. lave en DTO el.lign. som blev returneret fra WebScraper klassen, og så oprette Game objekterne et andet sted. Dvs. man vil kunne lave et relativt Generisk interface til WebScraper klassen som har en return-type DTO hvis man I fremtiden ville gøre det muligt at kunne scrape flere hjemmesider ud fra et URL.
+- Right now our WebScaper class is somewhat "closed" since we instantiate the Game objects from within the class. We could have potentially made a DTO or something alike that would return from the WebScaper class and then create the Game objects somewhere else. So in other words we would have been able to make a fairly generic interface for the WebScraper class which would return the type DTO if at any point we needed to scrape other websites.
