@@ -20,11 +20,13 @@ import java.util.stream.Stream;
 
 public class WebScraper {
 
-    private static final String BASE_PATH = "SteamDB/steamdb_info.html";
-    private static final String APP_FILE_PATH = "SteamDB/#.html";
+    private static final String BASE_PATH = "SteamDB/steamdb_info.html.txt";
+    private static final String APP_FILE_PATH = "SteamDB/#.html.txt";
 
     public static void main(String[] args) {
-        getData().forEach(System.out::println);
+        getData().forEach(game -> {
+            System.out.println(game.getApp_id() + " - " + game.getTitle() + " - " + game.getAll_time_peak());
+        });
     }
 
     public static List<Game> getData() {
